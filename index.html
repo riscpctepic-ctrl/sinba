@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reportes de Productividad SINBA</title>
+<style>
+:root{--g:#0b5d4f;--g2:#117a68;--au:#b8893c;--bg:#f7f3e8;--card:#fffdf7;--tx:#173a33;--mu:#6b7d77;--bd:#e3dcc6;--ok:#0b5d4f;--er:#a33;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a17;--card:#16231f;--tx:#e8efe9;--mu:#9bb0a8;--bd:#2a3d37;--g:#2aa58f;--g2:#1f8a76;--au:#d9aa5a;--er:#ff8a8a}}
+:root[data-theme="dark"]{--bg:#0f1a17;--card:#16231f;--tx:#e8efe9;--mu:#9bb0a8;--bd:#2a3d37;--g:#2aa58f;--g2:#1f8a76;--au:#d9aa5a;--er:#ff8a8a}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45}
+header{background:linear-gradient(120deg,#0b5d4f,#117a68);color:#fff;padding:22px 20px;border-bottom:4px solid var(--au)}
+header h1{margin:0;font-size:1.35rem}header p{margin:4px 0 0;opacity:.85;font-size:.9rem}
+main{max-width:980px;margin:0 auto;padding:18px 14px 60px;display:grid;gap:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px}
+.card h2{margin:0 0 10px;font-size:1.05rem;color:var(--g)}
+.drop{border:2px dashed var(--au);border-radius:12px;padding:26px;text-align:center;cursor:pointer;color:var(--mu)}
+.drop.on{background:rgba(184,137,60,.12)}.drop b{color:var(--tx)}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row>label{flex:1;min-width:150px;font-size:.82rem;color:var(--mu);display:grid;gap:4px}
+input[type=text],input[type=date]{padding:9px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit}
+.fm{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.fm label{border:2px solid var(--bd);border-radius:12px;padding:12px;cursor:pointer;display:block}
+.fm input{display:none}.fm label:has(input:checked){border-color:var(--g);background:rgba(17,122,104,.1)}
+.fm b{display:block;color:var(--g)}.fm span{font-size:.82rem;color:var(--mu)}
+button{font:inherit;border:0;border-radius:9px;padding:10px 16px;cursor:pointer;background:var(--g);color:#fff;font-weight:600}
+button.s{background:transparent;color:var(--g);border:1px solid var(--g)}button.d{background:transparent;color:var(--er);border:1px solid var(--er)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:10px 0}
+.t{border-radius:10px;padding:10px;text-align:center;background:var(--g);color:#fff}.t:nth-child(even){background:#efe6cf;color:#0b5d4f}
+.t small{display:block;font-size:.72rem;min-height:2.1em}.t strong{font-size:1.5rem}
+.st{display:flex;gap:8px;flex-wrap:wrap;font-size:.85rem;margin:6px 0}.st span{background:var(--bg);border:1px solid var(--bd);border-radius:999px;padding:3px 10px}
+.tw{overflow-x:auto;max-height:340px;overflow-y:auto;border:1px solid var(--bd);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.8rem}th{position:sticky;top:0;background:var(--g);color:#fff;padding:6px;white-space:nowrap}
+td{padding:5px 6px;border-top:1px solid var(--bd);text-align:right}td:nth-child(-n+2){text-align:left}
+.msg{font-size:.88rem;margin-top:8px}.msg.er{color:var(--er)}.msg.ok{color:var(--ok)}
+.h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--bd)}
+.h:first-of-type{border-top:0}.h small{color:var(--mu)}.hide{display:none}
+details{font-size:.85rem;margin-top:6px}
+body.locked>header,body.locked>main{display:none}
+#lg{position:fixed;inset:0;z-index:99;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;color:#fff;background:radial-gradient(circle at 30% 20%,#117a68,#0b5d4f 55%,#06382f);overflow:hidden;transition:opacity .7s,visibility .7s}
+body:not(.locked) #lg{opacity:0;visibility:hidden;pointer-events:none}
+#lg .ring{position:absolute;border:2px solid rgba(193,154,84,.45);border-radius:50%;animation:rg 6s linear infinite}
+@keyframes rg{from{transform:scale(.2);opacity:.9}to{transform:scale(2);opacity:0}}
+#lgc{position:relative;z-index:1;max-width:620px;width:100%}
+#lg h1{font-size:clamp(1.4rem,4.6vw,2.3rem);margin:10px 0;line-height:1.2}
+.lgb{letter-spacing:.25em;font-size:.8rem;color:#e2c78f;animation:up .8s .2s both}
+.w{display:inline-block;margin:0 .14em;opacity:0;transform:translateY(18px);animation:up .7s forwards}
+.dl{opacity:0;animation:up .8s forwards}
+@keyframes up{to{opacity:1;transform:none}}
+.lgi{animation:pop .9s both,pl 2.6s 1s infinite}
+@keyframes pop{from{transform:scale(.3) rotate(-90deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes pl{50%{transform:scale(1.08)}}
+@keyframes sh{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+#lgf{width:min(320px,100%);margin:14px auto 0}
+#lgf.sk{animation:sh .4s;opacity:1}
+#lgf input[type=text],#lgf input[type=password]{width:100%;margin:6px 0;padding:11px;border-radius:9px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;font:inherit}
+#lgf input::placeholder{color:rgba(255,255,255,.65)}
+#lgf button{width:100%;margin-top:10px;background:#b8893c;color:#fff}
+.sw{display:block;font-size:.8rem;text-align:left;opacity:.85}.lge{min-height:1.4em;margin-top:8px;font-size:.88rem;color:#ffd0d0}
+@media (prefers-reduced-motion:reduce){#lg *{animation-duration:.01s!important;animation-delay:0s!important}}
+</style></head><body class="locked">
+<div id="lg"><i class="ring" style="width:420px;height:420px"></i><i class="ring" style="width:420px;height:420px;animation-delay:2s"></i><i class="ring" style="width:420px;height:420px;animation-delay:4s"></i>
+<div id="lgc"><svg class="lgi" viewBox="0 0 64 64" width="76" height="76"><rect x="3" y="3" width="58" height="58" rx="16" fill="none" stroke="#c19a54" stroke-width="3"/><path d="M26 14h12v12h12v12H38v12H26V38H14V26h12z" fill="#fff"/></svg>
+<div class="lgb">IMSS BIENESTAR</div><h1 id="lgt"></h1>
+<p class="dl" style="animation-delay:2.2s">Introduce tu usuario y contraseña</p>
+<form id="lgf" class="dl" style="animation-delay:2.7s"><input id="lu" type="text" placeholder="Usuario" autocomplete="username" required><input id="pw" type="password" placeholder="Contraseña" autocomplete="current-password" required><label class="sw"><input type="checkbox" id="sp"> Mostrar contraseña</label><button type="submit">Entrar</button><div id="lge" class="lge"></div></form></div></div>
+<header><button id="lo" class="s" style="float:right;color:#fff;border-color:#fff">Cerrar sesión</button><h1>Reportes de Productividad · SINBA</h1><p>Sube el Excel de Estadísticas SIS, depúralo y genera el reporte en PDF.</p></header>
+<main>
+<section class="card"><h2>1. Sube el Excel</h2>
+<div class="drop" id="drop"><b>Arrastra el archivo aquí</b> o toca para elegirlo (.xlsx)<br><small id="fn"></small></div>
+<input type="file" id="file" accept=".xlsx,.xls" class="hide">
+<div class="msg" id="m1"></div></section>
+
+<section class="card hide" id="res"><h2>2. Datos depurados</h2>
+<div class="st" id="stats"></div><div class="tiles" id="tiles"></div>
+<details id="fus"><summary>Profesionales fusionados (mismo nombre / CURP)</summary><div id="fusl"></div></details>
+<div class="tw" style="margin-top:10px"><table id="tb"></table></div></section>
+
+<section class="card hide" id="trn"><h2>Turno de cada prestador de servicio</h2>
+<small style="color:var(--mu)">Elige el turno de cada persona. Se guarda en este navegador y se conserva al subir nuevos archivos; puedes cambiarlo cuando quieras.</small>
+<div class="st" id="tc"></div>
+<div class="row" style="margin:8px 0"><label>Buscar<input type="text" id="tf" placeholder="Nombre o puesto" oninput="roster()"></label><label>Mostrar<select id="tv" onchange="roster()"></select></label><label>Asignar a los que se ven en la lista<select id="bs"></select></label><label style="align-content:end"><button class="s" id="bb">Aplicar a la lista</button></label><label style="align-content:end"><button class="d" id="br">Resetear todos los turnos</button></label></div>
+<div class="tw"><table id="tt"></table></div></section>
+
+<section class="card hide" id="cfg"><h2>3. Datos del reporte</h2>
+<div class="row"><label>Fecha inicial<input type="date" id="fi"></label><label>Fecha final<input type="date" id="ff"></label></div>
+<div class="row" style="margin-top:10px"><label>Unidad<input type="text" id="un" value="Centro de Salud Urbano Tepic “Juan Escutia”"></label><label>Elaborado por<input type="text" id="au" value="Leonel Conde Rico"></label></div>
+<div class="row" style="margin-top:10px"><label>Turno del reporte<select id="ts"></select></label><label>Tipo de archivo<select id="ta"><option value="profesional">Profesional que dio consulta</option><option value="registro">Persona que registró</option></select></label></div>
+<h2 style="margin-top:14px">Formato del reporte</h2>
+<div class="fm">
+<label><input type="radio" name="fm" value="resumen" checked><b>Resumen con gráficas</b><span>1 hoja: tarjetas y gráfica de distribución, como el ejemplo.</span></label>
+<label><input type="radio" name="fm" value="completo"><b>Completo con gráficas</b><span>Resumen + una tabla por cada área de la salud (Consulta Externa, Salud Bucal, etc.).</span></label>
+<label><input type="radio" name="fm" value="tablas"><b>Sin gráficas</b><span>Tarjetas y tabla por profesional, sin gráfica.</span></label>
+<label><input type="radio" name="fm" value="turnos"><b>Por turno con gráficas</b><span>Comparativo de turnos y, por cada turno: tarjetas, gráfica y tabla de su personal.</span></label>
+<label><input type="radio" name="fm" value="turnosSG"><b>Por turno sin gráficas</b><span>Comparativo de turnos y, por cada turno: tarjetas y tabla de su personal.</span></label>
+<label><input type="radio" name="fm" value="sinprod"><b>Sin productividad</b><span>Lista de prestadores que aparecen en el Excel pero no registraron actividades.</span></label>
+</div>
+<div class="row" style="margin-top:14px"><button id="gen">Generar y guardar PDF</button><button class="s" id="xl">Descargar Excel depurado</button><button class="s" id="xo">Descargar Excel original</button></div>
+<div class="msg" id="m2"></div></section>
+
+<section class="card"><h2>Reportes guardados</h2><div id="hist"></div>
+<div class="msg" id="m3"></div><small style="color:var(--mu)">Se guardan en este navegador, junto con el Excel original. Con “Abrir” recuperas los datos para cambiar turnos o formato y generar uno nuevo; con “Descargar PDF” lo imprimes otra vez.</small></section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script>
+const CATS=["Consulta Externa","Salud Bucal","Salud Mental","Planificación Familiar","Detecciones","Atención Obstétrica","Cuidados de Enfermería","Trabajo Social","Atención a Distancia","Cédula de Cáncer Intramuros","Cédula de Cáncer Extramuros"];
+const SH=["Consulta\nExterna","Salud\nBucal","Salud\nMental","Plan.\nFam.","Detec-\nciones","At.\nObst.","Cuid.\nEnf.","Trab.\nSocial","At. a\nDist.","Céd. Cá.\nIntra","Céd. Cá.\nExtra"];
+const $=id=>document.getElementById(id);let cur=null,dl=null,curFile=null;
+const sum=a=>a.reduce((x,y)=>x+y,0),fmt=n=>n.toLocaleString("es-MX");
+const fd=s=>s?s.split("-").reverse().join("/"):"";
+const norm=s=>String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/\s+/g," ").trim();
+function toISO(v){if(!v)return"";const p=n=>String(n).padStart(2,"0");
+ if(v instanceof Date)return v.getFullYear()+"-"+p(v.getMonth()+1)+"-"+p(v.getDate());
+ if(typeof v==="number"){const d=XLSX.SSF.parse_date_code(v);return d?d.y+"-"+p(d.m)+"-"+p(d.d):""}
+ const m=String(v).match(/(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})/);return m?m[3]+"-"+p(m[2])+"-"+p(m[1]):""}
+function parse(ab){
+ const wb=XLSX.read(ab,{type:"array",cellDates:true}),A=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:null,raw:true});
+ const hi=A.findIndex(r=>String(r[0]||"").trim()==="Entidad Federativa");
+ if(hi<0)throw new Error("No encontré la tabla de Estadísticas SIS en este archivo.");
+ const rows=A.slice(hi+1).filter(r=>r[3]).map(r=>{const s=String(r[3]),i=s.lastIndexOf(" - ");
+  const name=i>0?s.slice(0,i).trim():s.trim(),curp=i>0?s.slice(i+3).trim():"",v=k=>Number(r[k])||0;
+  const keys=["N:"+norm(name)];if(/^[A-Z]{4}\d{6}/.test(curp)&&!curp.startsWith("XXXX"))keys.push("C:"+curp);
+  return{name,tipo:String(r[4]||""),vec:[v(5),v(6),v(7),v(8),v(9),v(10),v(11)+v(12),v(13),v(14),v(15),v(16)],keys}});
+ const par=rows.map((_,i)=>i),find=x=>par[x]===x?x:(par[x]=find(par[x])),km=new Map();
+ rows.forEach((o,i)=>o.keys.forEach(k=>{if(km.has(k))par[find(i)]=find(km.get(k));else km.set(k,i)}));
+ const g=new Map();rows.forEach((o,i)=>{const r=find(i);(g.get(r)||g.set(r,[]).get(r)).push(o)});
+ const all=[...g.values()].map(L=>{const vec=CATS.map((_,j)=>sum(L.map(o=>o.vec[j])));
+  const best=[...L].sort((a,b)=>sum(b.vec)-sum(a.vec))[0],name=L.map(o=>o.name).sort((a,b)=>b.length-a.length)[0];
+  return{name,tipo:best.tipo,vec,total:sum(vec),n:L.length}});
+ const people=all.filter(p=>p.total>0).sort((a,b)=>b.total-a.total||a.name.localeCompare(b.name));
+ return{people,modo:(()=>{const a=A.slice(0,hi).find(r=>String(r[0]||"").trim()==="Agrupar por");return a&&norm(a[1]||"").includes("REGISTR")?"registro":"profesional"})(),totals:CATS.map((_,j)=>sum(people.map(p=>p.vec[j]))),
+  stats:{filas:rows.length,unicos:all.length,con:people.length,sin:all.length-people.length},
+  fus:people.filter(p=>p.n>1).map(p=>p.name+" ("+p.n+" registros)"),zero:all.filter(p=>p.total===0).sort((a,b)=>a.name.localeCompare(b.name)),fi:toISO(A[0][1]),ff:toISO(A[1][1])}}
+function render(){
+ const c=cur;$("res").classList.remove("hide");$("cfg").classList.remove("hide");
+ $("stats").innerHTML="";[["Registros en el Excel",c.stats.filas],["Profesionales únicos",c.stats.unicos],["Con productividad",c.stats.con],["Sin productividad (quitados)",c.stats.sin]].forEach(([a,b])=>{const s=document.createElement("span");s.textContent=a+": "+b;$("stats").appendChild(s)});
+ $("tiles").innerHTML="";CATS.forEach((n,j)=>{const d=document.createElement("div");d.className="t";const s=document.createElement("small");s.textContent=n;const b=document.createElement("strong");b.textContent=fmt(c.totals[j]);d.append(s,b);$("tiles").appendChild(d)});
+ $("fus").classList.toggle("hide",!c.fus.length);$("fusl").textContent=c.fus.join(" · ");
+ const t=$("tb");t.innerHTML="";const h=t.insertRow();["Profesional","Puesto",...CATS.map((_,j)=>SH[j].replace("\n"," ")),"Total"].forEach(x=>{const e=document.createElement("th");e.textContent=x;h.appendChild(e)});
+ c.people.forEach(p=>{const r=t.insertRow();[p.name,p.tipo,...p.vec,p.total].forEach(x=>{r.insertCell().textContent=x})})}
+async function load(f){
+ $("fn").textContent=f.name;$("m1").className="msg";$("m1").textContent="Procesando…";
+ try{const ab=await f.arrayBuffer();cur=parse(ab);curFile={name:f.name,buf:ab};render();roster();$("trn").classList.remove("hide");
+  if(cur.fi)$("fi").value=cur.fi;$("ta").value=cur.modo||"profesional";if(cur.ff)$("ff").value=cur.ff;
+  $("m1").className="msg ok";$("m1").textContent="Listo. Tipo de archivo: "+(cur.modo==="registro"?"Persona que registró":"Profesional que dio consulta")+". "+(cur.fi&&cur.ff?"Fechas leídas del Excel.":"Este Excel no trae las fechas capturadas; indícalas en el paso 3.")}
+ catch(e){$("m1").className="msg er";$("m1").textContent=e.message}}
+$("drop").onclick=()=>$("file").click();$("file").onchange=e=>e.target.files[0]&&load(e.target.files[0]);
+["dragover","dragenter"].forEach(v=>$("drop").addEventListener(v,e=>{e.preventDefault();$("drop").classList.add("on")}));
+["dragleave","drop"].forEach(v=>$("drop").addEventListener(v,e=>{e.preventDefault();$("drop").classList.remove("on")}));
+$("drop").addEventListener("drop",e=>e.dataTransfer.files[0]&&load(e.dataTransfer.files[0]));
+
+const TURNOS=["Matutino","Vespertino","Nocturno","Especial"],TK="sinba_turnos";
+const getT=()=>{try{return JSON.parse(localStorage.getItem(TK)||"{}")}catch(e){return{}}};
+const setT=(name,t)=>{const o=getT(),k=norm(name);if(t)o[k]={n:name,t};else delete o[k];try{localStorage.setItem(TK,JSON.stringify(o))}catch(e){}};
+const turnoOf=name=>(getT()[norm(name)]||{}).t||"";
+[["","Sin asignar"],...TURNOS.map(t=>[t,t])].forEach(([v,l])=>$("bs").add(new Option(l,v)));
+[["*","Todos"],["","Sin asignar"],...TURNOS.map(t=>[t,t])].forEach(([v,l])=>$("tv").add(new Option(l,v)));
+[["","Todo el personal"],...TURNOS.map(t=>[t,t]),["__sin","Sin asignar"]].forEach(([v,l])=>$("ts").add(new Option(l,v)));
+const ALL=()=>[...cur.people,...(cur.zero||[])];
+function cnt(){const c={};ALL().forEach(p=>{const t=turnoOf(p.name)||"Sin asignar";c[t]=(c[t]||0)+1});$("tc").innerHTML="";Object.entries(c).forEach(([k,v])=>{const s=document.createElement("span");s.textContent=k+": "+v;$("tc").appendChild(s)})}
+function roster(){if(!cur)return;const q=norm($("tf").value),T=$("tt");T.innerHTML="";const h=T.insertRow();["Profesional","Puesto","Turno"].forEach(x=>{const e=document.createElement("th");e.textContent=x;h.appendChild(e)});
+ const tv=$("tv").value,L=ALL().filter(p=>(!q||norm(p.name+" "+p.tipo+(p.total===0?" sin productividad":"")).includes(q))&&(tv==="*"||turnoOf(p.name)===tv));
+ L.forEach(p=>{const r=T.insertRow();r.insertCell().textContent=p.name;r.insertCell().textContent=p.tipo+(p.total===0?" (sin productividad)":"");const s=document.createElement("select");[["","Sin asignar"],...TURNOS.map(t=>[t,t])].forEach(([v,l])=>s.add(new Option(l,v)));s.value=turnoOf(p.name);s.onchange=()=>{setT(p.name,s.value);cnt()};r.insertCell().appendChild(s)});
+ roster.vis=L;cnt()}
+$("bb").onclick=()=>{if(!cur||!(roster.vis||[]).length)return;const v=$("bs").value;if(!confirm("¿Asignar «"+(v||"Sin asignar")+"» a las "+roster.vis.length+" personas de la lista?"))return;roster.vis.forEach(p=>setT(p.name,v));roster()};
+$("br").onclick=()=>{if(!confirm("¿Quitar el turno de TODO el personal? Los reportes ya guardados no se modifican."))return;try{localStorage.removeItem(TK)}catch(e){}$("tf").value="";$("tv").value="*";if(cur)roster()};
+function chartImg(totals,w,h){
+ const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");
+ x.fillStyle="#f8f5ec";x.fillRect(0,0,w,h);x.font="22px Helvetica,Arial,sans-serif";
+ const mx=Math.max(...totals,1),top=Math.pow(10,String(mx).length-1),step=Math.ceil(mx/top)*top/4,L=90,B=110,T=50,ph=h-B-T,cw=(w-L-20)/11;
+ x.strokeStyle="#ddd3b8";x.fillStyle="#6b7d77";x.textAlign="right";x.lineWidth=1;
+ for(let i=0;i<=4;i++){const y=T+ph-ph*i/4;x.beginPath();x.moveTo(L,y);x.lineTo(w-10,y);x.stroke();x.fillText(fmt(Math.round(step*i)),L-8,y+7)}
+ const cols=["#0b5d4f","#c19a54","#117a68"];x.textAlign="center";
+ totals.forEach((v,i)=>{const bh=ph*v/(step*4),bx=L+i*cw+cw*.18,bw=cw*.64;x.fillStyle=cols[i%3];x.fillRect(bx,T+ph-bh,bw,Math.max(bh,2));
+  x.fillStyle="#0b5d4f";x.font="bold 24px Helvetica,Arial,sans-serif";x.fillText(fmt(v),bx+bw/2,T+ph-bh-8);
+  x.font="19px Helvetica,Arial,sans-serif";x.fillStyle="#173a33";CATS[i].split(" ").reduce((l,wd)=>{const t=l.length&&(l[l.length-1]+" "+wd).length<13?(l[l.length-1]+=" "+wd,l):(l.push(wd),l);return t},[]).forEach((ln,k)=>x.fillText(ln,bx+bw/2,T+ph+28+k*22))});
+ return c.toDataURL("image/png")}
+function mkPDF(r){
+ const {jsPDF}=window.jspdf,doc=new jsPDF({unit:"mm",format:"letter"}),W=215.9,H=279.4,M=10,GR=[11,93,79],AU=[184,137,60],CR=[239,230,207];
+ doc.setFillColor(...GR);doc.rect(0,0,W,3,"F");
+ doc.setTextColor(...GR);doc.setFont("helvetica","bold");doc.setFontSize(22);doc.text("IMSS BIENESTAR",M,24);
+ doc.setDrawColor(...AU);doc.setLineWidth(.7);doc.line(M,27,88,27);doc.setTextColor(...AU);doc.setFontSize(8.5);doc.text("SERVICIOS PÚBLICOS DE SALUD",M,32);
+ doc.line(94,12,94,40);doc.setTextColor(...GR);doc.setFontSize(13);
+ const tn=r.turnoSel?" · Turno "+(r.turnoSel==="__sin"?"Sin asignar":r.turnoSel):"";const rg=r.modo==="registro",PN=rg?"Persona que registró":"Profesional",tl=doc.splitTextToSize((r.formato==="sinprod"?(rg?"Personal que registra sin productividad del ":"Prestadores sin productividad del "):(rg?"Productividad por persona que registra del ":"Productividad del "))+r.unidad+tn,W-M-100);doc.text(tl,100,17);
+ let y=17+tl.length*5.5;doc.setTextColor(...AU);doc.setFontSize(10.5);doc.text("Periodo: del "+fd(r.fi)+" al "+fd(r.ff),100,y);
+ doc.setTextColor(...GR);doc.setFontSize(8);doc.text("Fuente: SINBA · "+r.fi.slice(0,4),100,y+5);
+ y=46;const tw=(W-2*M-5*2)/6,th=25;
+ const tiles=(tot,y)=>CATS.forEach((n,i)=>{const col=i%6,row=Math.floor(i/6),x=M+col*(tw+2),yy=y+row*(th+2),dk=i%2===0;
+  doc.setFillColor(...(dk?GR:CR));doc.roundedRect(x,yy,tw,th,2,2,"F");doc.setTextColor(...(dk?[255,255,255]:GR));
+  doc.setFont("helvetica","bold");doc.setFontSize(7);doc.text(doc.splitTextToSize(n,tw-3),x+tw/2,yy+5,{align:"center"});
+  doc.setFontSize(15);doc.text(fmt(tot[i]),x+tw/2,yy+th-4,{align:"center"})});
+ if(r.formato!=="sinprod"){tiles(r.totals,y);y+=2*(th+2)+4}
+ doc.setFontSize(9);doc.setTextColor(...GR);doc.setFont("helvetica","normal");
+ doc.text(r.formato==="sinprod"?r.people.length+" prestadores de servicio sin productividad en el periodo":r.people.length+" profesionales con productividad · Total de actividades: "+fmt(sum(r.totals)),M,y);y+=4;
+ if(r.formato!=="tablas"&&r.formato!=="turnosSG"&&r.formato!=="sinprod"){
+  doc.setFillColor(...GR);doc.roundedRect(M,y,W-2*M,9,2,2,"F");doc.setTextColor(255,255,255);doc.setFont("helvetica","bold");doc.setFontSize(11);doc.text("Distribución de la Productividad",M+4,y+6.2);y+=11;
+  const ch=r.formato==="resumen"?110:80,iw=W-2*M;doc.addImage(chartImg(r.totals,1500,Math.round(1500*ch/iw)),"PNG",M,y,iw,ch);y+=ch+4}
+ if(r.formato==="completo"){doc.addPage();y=14;
+  CATS.forEach((cn,j)=>{const L=r.people.filter(p=>p.vec[j]>0).sort((a,b)=>b.vec[j]-a.vec[j]||a.name.localeCompare(b.name));if(!L.length)return;
+   if(y>H-50){doc.addPage();y=14}
+   doc.setFillColor(...GR);doc.roundedRect(M,y,W-2*M,8,2,2,"F");doc.setTextColor(255,255,255);doc.setFont("helvetica","bold");doc.setFontSize(10.5);doc.text(cn+" · "+L.length+" profesionales · Total "+fmt(r.totals[j]),M+4,y+5.6);
+   doc.autoTable({startY:y+9,margin:{left:M,right:M,bottom:16},theme:"grid",head:[["#",PN,"Puesto","Total"]],body:L.map((p,i)=>[i+1,p.name,p.tipo,p.vec[j]]),foot:[["","TOTAL","",r.totals[j]]],showFoot:"lastPage",styles:{fontSize:7.5,cellPadding:1.2,textColor:[23,58,51],lineColor:[227,220,198]},headStyles:{fillColor:AU,textColor:255},footStyles:{fillColor:CR,textColor:GR},alternateRowStyles:{fillColor:[248,245,236]},columnStyles:{0:{cellWidth:10,halign:"center"},3:{cellWidth:22,halign:"center",fontStyle:"bold"}}});
+   y=doc.lastAutoTable.finalY+8})}
+ else if(r.formato==="tablas"){
+  doc.autoTable({startY:y,margin:{left:M,right:M,bottom:16},theme:"grid",
+   head:[[PN,"Puesto",...SH,"Total"]],body:r.people.map(p=>[p.name,p.tipo.replace("MÉDICA(O)","MÉD.").replace("ENFEMERA(O)","ENF.").replace("PROFESIONAL","PROF."),...p.vec,p.total]),
+   foot:[["TOTAL","",...r.totals,sum(r.totals)]],showFoot:"lastPage",
+   styles:{fontSize:6.2,cellPadding:1,textColor:[23,58,51],lineColor:[227,220,198]},
+   headStyles:{fillColor:GR,textColor:255,halign:"center",fontSize:5.8},footStyles:{fillColor:AU,textColor:255},
+   alternateRowStyles:{fillColor:[248,245,236]},
+   columnStyles:{0:{cellWidth:44},1:{cellWidth:27},13:{fontStyle:"bold"},...Object.fromEntries(Array.from({length:11},(_,i)=>[i+2,{halign:"center"}]))}})}
+ else if(r.formato==="sinprod"){
+  doc.autoTable({startY:y+2,margin:{left:M,right:M,bottom:16},theme:"grid",head:[["#",PN,"Puesto","Turno"]],body:r.people.map((p,i)=>[i+1,p.name,p.tipo,p.turno||"Sin asignar"]),styles:{fontSize:8,cellPadding:1.5,textColor:[23,58,51],lineColor:[227,220,198]},headStyles:{fillColor:GR,textColor:255},alternateRowStyles:{fillColor:[248,245,236]},columnStyles:{0:{cellWidth:10,halign:"center"},3:{cellWidth:28,halign:"center"}}})}
+ else if(r.formato.startsWith("turnos")){
+  const grp=[...TURNOS,""].map(t=>({t,L:r.people.filter(p=>(p.turno||"")===t)})).filter(g=>g.L.length);
+  const nm=t=>t||"Sin asignar",tt=g=>CATS.map((_,j)=>sum(g.L.map(p=>p.vec[j]))),ab=s=>s.replace("MÉDICA(O)","MÉD.").replace("ENFEMERA(O)","ENF.").replace("PROFESIONAL","PROF.");
+  const base={margin:{left:M,right:M,bottom:16},theme:"grid"},sty={fontSize:6.2,cellPadding:1,textColor:[23,58,51],lineColor:[227,220,198]};
+  if(!r.turnoSel)doc.autoTable({...base,startY:y,head:[["Turno","Prof.",...SH,"Total"]],body:grp.map(g=>[nm(g.t).toUpperCase(),g.L.length,...tt(g),sum(tt(g))]),foot:[["TOTAL",r.people.length,...r.totals,sum(r.totals)]],styles:{...sty,fontSize:6.5,cellPadding:1.2,halign:"center"},headStyles:{fillColor:GR,textColor:255,fontSize:5.8},footStyles:{fillColor:AU,textColor:255},alternateRowStyles:{fillColor:[248,245,236]},columnStyles:{0:{halign:"left",fontStyle:"bold",cellWidth:24}}});
+  grp.forEach(g=>{const T=tt(g);if(!r.turnoSel){doc.addPage();y=14;
+   doc.setFillColor(...GR);doc.roundedRect(M,y,W-2*M,11,2,2,"F");doc.setTextColor(255,255,255);doc.setFont("helvetica","bold");doc.setFontSize(12);doc.text("TURNO "+nm(g.t).toUpperCase()+" · "+g.L.length+" profesionales · "+fd(r.fi)+" al "+fd(r.ff),M+4,y+7.2);
+   y+=15;tiles(T,y);y+=2*(th+2)+4;
+   if(r.formato==="turnos"){const ch=70,iw=W-2*M;doc.addImage(chartImg(T,1500,Math.round(1500*ch/iw)),"PNG",M,y,iw,ch);y+=ch+4}}
+   doc.autoTable({...base,startY:y,head:[[PN,"Puesto",...SH,"Total"]],body:g.L.map(p=>[p.name,ab(p.tipo),...p.vec,p.total]),foot:[["TOTAL DEL TURNO","",...T,sum(T)]],showFoot:"lastPage",styles:sty,headStyles:{fillColor:GR,textColor:255,halign:"center",fontSize:5.8},footStyles:{fillColor:AU,textColor:255},alternateRowStyles:{fillColor:[248,245,236]},columnStyles:{0:{cellWidth:44},1:{cellWidth:27},13:{fontStyle:"bold"},...Object.fromEntries(Array.from({length:11},(_,i)=>[i+2,{halign:"center"}]))}})})}
+ const n=doc.getNumberOfPages();for(let i=1;i<=n;i++){doc.setPage(i);
+  doc.setFillColor(...GR);doc.rect(0,H-10,W,10,"F");doc.setDrawColor(...AU);doc.setLineWidth(.4);doc.line(M,H-10,W-M,H-10);
+  doc.setTextColor(255,255,255);doc.setFont("helvetica","normal");doc.setFontSize(8);
+  doc.text("Elaborado por: "+r.autor,M,H-4);doc.text("Generado el "+new Date(r.creado).toLocaleDateString("es-MX")+" · Pág. "+i+" de "+n,W-M,H-4,{align:"right"})}
+ return doc}
+const FN={resumen:"Resumen con gráficas",completo:"Completo con gráficas",tablas:"Sin gráficas",turnos:"Por turno con gráficas",turnosSG:"Por turno sin gráficas",sinprod:"Sin productividad"};
+async function save(blob,name,msgEl){
+ if(!dl){try{dl=await claude.use("downloads")}catch(e){dl=null}}
+ if(!dl){try{const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);msgEl.className="msg ok";msgEl.textContent="Descarga iniciada. Si no aparece el archivo, abre esta página desde el enlace de claude.ai (no como archivo suelto o vista previa)."}catch(e){msgEl.className="msg er";msgEl.textContent="No se pudo descargar en esta vista. Abre el enlace del artefacto en claude.ai."}return}
+ try{await dl.save({filename:name,data:blob});msgEl.className="msg ok";msgEl.textContent="Archivo guardado."}
+ catch(e){msgEl.className="msg er";msgEl.textContent=e.code==="declined"?"Descarga cancelada.":"No se pudo guardar: "+(e.message||e.code)}}
+const nameOf=r=>"Reporte_SINBA_"+r.fi+"_a_"+r.ff+(r.modo==="registro"?"_Registro":"")+"_"+r.formato+(r.turnoSel?"_"+(r.turnoSel==="__sin"?"SinAsignar":r.turnoSel):"")+".pdf";
+const getH=()=>{try{return JSON.parse(localStorage.getItem("sinba_rep")||"[]")}catch(e){return[]}};
+function hist(){const L=getH(),h=$("hist");h.innerHTML="";
+ if(!L.length){h.innerHTML='<small style="color:var(--mu)">Aún no hay reportes guardados.</small><br>';return}
+ L.forEach(r=>{const d=document.createElement("div");d.className="h";const t=document.createElement("div");
+  const b=document.createElement("b");b.textContent=fd(r.fi)+" al "+fd(r.ff);const s=document.createElement("small");
+  s.textContent=" · "+(r.modo==="registro"?"Por persona que registró · ":"")+FN[r.formato]+(r.turnoSel?" · Turno "+(r.turnoSel==="__sin"?"Sin asignar":r.turnoSel):"")+" · "+r.people.length+" profesionales · generado "+new Date(r.creado).toLocaleString("es-MX");t.append(b,s);
+  const a=document.createElement("div");a.style.cssText="display:flex;gap:6px;flex-wrap:wrap";
+  const b1=document.createElement("button");b1.textContent="Descargar PDF";b1.onclick=()=>save(mkPDF(r).output("blob"),nameOf(r),$("m3"));
+  const b3=document.createElement("button");b3.className="s";b3.textContent="Abrir";b3.onclick=()=>reopen(r);
+  const b4=document.createElement("button");b4.className="s";b4.textContent="Excel original";b4.disabled=!r.xname;b4.title=r.xname?"":"Este reporte se guardó sin el Excel original";b4.onclick=()=>dlOrig(r.id,r.xname);
+  const b2=document.createElement("button");b2.className="d";b2.textContent="Eliminar";b2.onclick=()=>{if(confirm("¿Eliminar este reporte guardado?")){xdel(r.id).catch(()=>{});try{localStorage.setItem("sinba_rep",JSON.stringify(getH().filter(x=>x.id!==r.id)))}catch(e){}hist()}};
+  a.append(b3,b1,b4,b2);d.append(t,a);h.appendChild(d)})}
+$("gen").onclick=async()=>{
+ const m=$("m2");m.className="msg";if(!cur)return;
+ if(!$("fi").value||!$("ff").value){m.className="msg er";m.textContent="Indica la fecha inicial y la final.";return}
+ if($("fi").value>$("ff").value){m.className="msg er";m.textContent="La fecha inicial no puede ser posterior a la final.";return}
+ const ts=$("ts").value,fm0=document.querySelector("input[name=fm]:checked").value,PL=(fm0==="sinprod"?cur.zero||[]:cur.people).map(p=>({...p,turno:turnoOf(p.name)})).filter(p=>ts===""||(ts==="__sin"?!p.turno:p.turno===ts));
+ if(!PL.length){m.className="msg er";m.textContent="No hay personal que cumpla con ese criterio (formato y turno). Revísalo en la sección de turnos.";return}
+ const r={id:Date.now(),creado:Date.now(),fi:$("fi").value,ff:$("ff").value,unidad:$("un").value.trim(),autor:$("au").value.trim(),formato:document.querySelector("input[name=fm]:checked").value,people:PL,totals:CATS.map((_,j)=>sum(PL.map(p=>p.vec[j]))),turnoSel:ts,modo:$("ta").value};
+ let blob;try{blob=mkPDF(r).output("blob")}catch(e){m.className="msg er";m.textContent="Error al crear el PDF: "+e.message;return}
+ if(curFile){r.xname=curFile.name;try{await xput(r.id,curFile)}catch(e){r.xname=""}}
+ try{localStorage.setItem("sinba_rep",JSON.stringify([r,...getH()]));hist()}catch(e){m.className="msg er";m.textContent="No se pudo guardar el historial en este navegador; se descargará de todos modos."}
+ await save(blob,nameOf(r),m)};
+$("xl").onclick=async()=>{if(!cur)return;const ws=XLSX.utils.aoa_to_sheet([["Profesional","Puesto",...CATS,"Total"],...cur.people.map(p=>[p.name,p.tipo,...p.vec,p.total]),["TOTAL","",...cur.totals,sum(cur.totals)]]);
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Depurado");
+ await save(new Blob([XLSX.write(wb,{type:"array",bookType:"xlsx"})]),"Estadisticas_depuradas.xlsx",$("m2"))};
+const idb=()=>new Promise((res,rej)=>{const q=indexedDB.open("sinba",1);q.onupgradeneeded=()=>q.result.createObjectStore("x");q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)});
+const xput=async(k,v)=>{const d=await idb();return new Promise((res,rej)=>{const t=d.transaction("x","readwrite");t.objectStore("x").put(v,k);t.oncomplete=()=>res();t.onerror=()=>rej(t.error)})};
+const xget=async k=>{const d=await idb();return new Promise((res,rej)=>{const q=d.transaction("x").objectStore("x").get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})};
+const xdel=async k=>{const d=await idb();return new Promise((res,rej)=>{const t=d.transaction("x","readwrite");t.objectStore("x").delete(k);t.oncomplete=()=>res();t.onerror=()=>rej(t.error)})};
+async function dlOrig(id,name){const m=$("m3");try{const x=await xget(id);if(!x)throw 0;await save(new Blob([x.buf]),x.name||name||"Estadisticas.xlsx",m)}catch(e){m.className="msg er";m.textContent="No encontré el Excel original de este reporte en este navegador."}}
+async function reopen(r){const m=$("m3");m.className="msg";m.textContent="Abriendo…";
+ try{let x=null;try{x=await xget(r.id)}catch(e){}
+  if(x){cur=parse(x.buf);curFile=x}else{cur={people:r.formato==="sinprod"?[]:r.people,totals:r.formato==="sinprod"?CATS.map(()=>0):r.totals,stats:{filas:"–",unicos:"–",con:r.people.length,sin:"–"},fus:[],zero:r.formato==="sinprod"?r.people:[],fi:"",ff:""};curFile=null}
+  $("fn").textContent=x?x.name:"(reporte guardado)";render();roster();$("trn").classList.remove("hide");
+  $("fi").value=r.fi;$("ff").value=r.ff;$("un").value=r.unidad;$("au").value=r.autor;$("ts").value=r.turnoSel||"";$("ta").value=r.modo||"profesional";
+  const rd=document.querySelector('input[name=fm][value="'+r.formato+'"]');if(rd)rd.checked=true;
+  m.className="msg ok";m.textContent="Reporte abierto"+(x?"":" (sin el Excel original; con los datos ya depurados)")+". Ya puedes cambiar turnos o formato y generar uno nuevo.";
+  $("res").scrollIntoView({behavior:"smooth"})}catch(e){m.className="msg er";m.textContent="No se pudo abrir: "+e.message}}
+const OKH="2ea9f4f404f206edd00da2f79caa26efa346a1ea0aa49b120154916cccd80ee0",OKB="YWRtaW46aGFpbDEzNDk=",LG=$("lgc").innerHTML;
+async function chk(u,p){const s=u.trim().toLowerCase()+":"+p;try{if(window.crypto&&crypto.subtle){const h=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return[...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,"0")).join("")===OKH}}catch(e){}return btoa(s)===OKB}
+function showLogin(){const c=$("lgc");c.innerHTML=LG;const t=$("lgt");
+ "Bienvenido al Generador de Reportes de Productividad SINBA".split(" ").forEach((w,i)=>{const s=document.createElement("span");s.className="w";s.style.animationDelay=(.4+i*.16)+"s";s.textContent=w+" ";t.appendChild(s)});
+ $("sp").onchange=e=>{$("pw").type=e.target.checked?"text":"password"};
+ $("lgf").onsubmit=async e=>{e.preventDefault();
+  if(await chk($("lu").value,$("pw").value)){try{sessionStorage.setItem("sinba_ok","1")}catch(x){}document.body.classList.remove("locked")}
+  else{$("lge").textContent="Usuario o contraseña incorrectos.";const f=$("lgf");f.classList.remove("sk");void f.offsetWidth;f.classList.add("sk");$("pw").value="";$("pw").focus()}}}
+let sok=false;try{sok=sessionStorage.getItem("sinba_ok")==="1"}catch(e){}
+if(sok)document.body.classList.remove("locked");showLogin();
+$("lo").onclick=()=>{try{sessionStorage.removeItem("sinba_ok")}catch(e){}document.body.classList.add("locked");showLogin()};
+$("xo").onclick=()=>{if(curFile)save(new Blob([curFile.buf]),curFile.name,$("m2"))};
+hist();
+(async()=>{try{dl=await claude.use("downloads")}catch(e){dl=null}})();
+</script></body></html>
